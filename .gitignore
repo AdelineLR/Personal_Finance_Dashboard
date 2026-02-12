@@ -1,6 +1,14 @@
+# pycache
 __pycache__/
 *.pyc
-_old/
-*.csv
-*.ipynb
+
+# environment file
 environment.yml
+
+# personal data and config
+data/raw/personal/
+data/processed/personal/
+data/references/categories.json
+config/config_personal.yaml
+_old/
+notebook/EDA.ipynb
