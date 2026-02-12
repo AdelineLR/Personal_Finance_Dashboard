@@ -1,0 +1,181 @@
+{
+    "income" : {
+        "main_category" : "financial_operations",
+        "patterns" :[
+        "SANOFI", 
+        "FRANCE TRAVAIL",
+        "OPHELIE BRENET"
+        ]
+    },
+    "transfert" : {
+        "main_category" : "financial_operations",
+        "patterns" : [
+        "VIREMENT DE MME LE RAY ADELINE", "VIREMENT INSTANTANE DE MR DELUARD JEAN-PAUL",
+        "VIREMENT DE MR DELUARD JEAN-PAUL", "VIREMENT DE MLE LE RAY ADELINE",
+        "VIREMENT PERMANENT POUR MR DELUARD JEAN"
+        ]
+    },
+    "sport" : {
+        "main_category" : "personal_expenses",
+        "patterns" : [
+        "CHEVREUL SPORT"
+        ]
+    },
+    "phone_internet_tv" : {
+        "main_category" : "housing_utilities",
+        "patterns" : [
+        "BOUYGUES TELECOM", "ORANGE"
+        ]
+    },
+    "energy_water" : {
+        "main_category" : "housing_utilities",
+        "patterns" : [
+        "EDF", "EAU DU GRAND LYON"
+        ]
+    },
+    "cleaning" : {
+        "main_category" : "housing_utilities",
+        "patterns" : [
+        "VIVASERVICES", "URSSAF"
+        ]
+    },
+    "savings" : {
+        "main_category" : "financial_operations",
+        "patterns" : [
+        "PERP", "CACHEMIRE", "VIVACCIO"
+        ]
+    },
+    "health_expenses": {
+        "main_category" : "health",
+        "patterns" : [ 
+        "DR BERLIAT", "DOCTOLIB", "LBM UNILIANS", "PH DELANE DUPR", "PHARMACIE", "PHIE", 
+        "CAIRE NICOLAS", "CIRCLES", "ACHAT CB LW-BILLETWEB 07.05.25",
+        "GASNIER JULIE", "SARAH CAMEBOURG",
+        "BEN HADJ", "TIREL SOAZIC", "BARES CAMILLE", "CKS",
+        "DOCTEUR GUETAT"
+        ]
+    },
+    "social_security": {
+        "main_category" : "health",
+        "patterns" : [ 
+        "CPAM"
+        ]
+    },
+    "health_insurance": {
+        "main_category" : "health",
+        "patterns" : [ 
+        "APGIS"
+        ]
+    },
+    "food": {
+        "main_category" : "food",
+        "patterns" : [
+        "SODEXO", "BOULANGERIE", "GRAP3 PTITS PO", "AUCHAN",
+        "SUMUP   FROMAG", "ANTOINETTE", "SARL LES JUMEA", "MAGASIN U",
+        "E.LECLERC", "RETRAIT", "KYL ET JASAB", "LUGDUNUM MAREE", 
+        "BIO MACE", "CELLERIER", "HALL ET SIMON", "LVC ", "FABIENNE JAY", "BOGEY",
+        "ATAC", "COCHARD", "CARREFOUR", "INTERMARCHE", "TY AR SOAVON", 
+        "CAVE DE MAZENA", "ACHAT CB CAMPING PLAGE", "MARIE BLACHERE"
+        ]
+    },
+    "restaurant": {
+        "main_category" : "food",
+        "patterns" : [
+        "DES BULLES", "TRATTINO", "MANGIA", "GERLAND LE REN", "INDIANA", 
+        "L ECUME", "RESTAURANT", "AKAPICO", "BAR ", "RESTO", "ADLOUNI", 
+        "OKJA", "TOTEM ET TEMP", "LA PLATEFORME", "MC DONALS"
+        ]
+    },
+    "clothes": {
+        "main_category" : "personal_expenses",
+        "patterns" : [
+        "LOCA LOCA", "SECAND", "ETAM", "DECATHLON", "CODOGNES CHAUS", "PEPITA", "CHAUSSEA",
+        "CHAUSS PIED"
+        ]
+    },
+    "home_taxes": {
+        "main_category" : "housing_utilities",
+        "patterns" : [
+        "PRADO", "LE PATIO CHEVREUL"
+        ]
+    },
+    "public_transport_car": {
+        "main_category" : "public_transport_car",
+        "patterns" : [
+        "RATP", "TCL", "TOTAL", "AUTOROUTE", "ASF", "AREA", "SPL RU", 
+        "TRENITALIA", "APRR", "SNCF", "COFIROUTE", "ALIAE", "AVIA", "ESTACIO DE SER"
+        ]
+    },
+    "book_store": {
+        "main_category" : "personal_expenses",
+        "patterns" : [
+        "RIVE GAUCHE", "TERRE DES LIVR", "VOIE O CHAPITR", "LES KORRIGANS"
+        ]
+    },
+    "bank_taxes": {
+        "main_category" : "financial_operations",
+        "patterns" : [
+        "COTISATION"
+        ]
+    },
+    "taxes" : {
+        "main_category" : "financial_operations",
+        "patterns" : [
+        "FINANCES PUBL"
+        ]
+    },
+    "school" : {
+        "main_category" : "education",
+        "patterns" : [
+        "ST MICHEL", "REST SCOL", "APEL"
+        ]
+    },
+    "school_stationery" : {
+        "main_category" : "education",
+        "patterns" : [
+        "BURO SARL"
+        ]
+    },
+    "social_system" : {
+        "main_category" : "education",
+        "patterns" : [
+        "CAF"
+        ]
+    },
+    "insurance" : {
+        "main_category" : "housing_utilities",
+        "patterns" : [
+        "MAIF"
+        ]
+    },
+    "donations" : {
+        "main_category" : "financial_operations",
+        "patterns" : [
+        "Croix-Rouge"
+        ]
+    },
+    "works" :{
+        "main_category" : "housing_utilities",
+        "patterns" : [
+        "BRICORAMA", "LEROY MERLIN", "PERSPECTIVE VERANDA", "MORAND","TENBO AGENCEMENT", 
+        "CAL ART PEINTURE", "VIREMENT DEBIT", "ETS ROCHE PERE ET FILS", "ROCHE ET FILS"
+        ]
+    },
+    "holidays" : {
+        "main_category" : "holidays_leisure",
+        "patterns" : [
+        "Airbnb", "BOOKING", "EMANUELLA", "PORTAVENTURA", "PORT AVENTURA", "PARK GELL", "ski", "ROUE LIBRE",
+        "CYCLOMAR", "VELOBELLEILE.F", "EQUILIBRES ARC", "TRINITAIN", "POURLETTE", "LA BELLE ILOIS",
+        "MAISON RIGUIDE", "KERDELICES", "MAXICOFFEE", "LES NINICHES", "PAW REST", "BON PREU",
+        "CASTELL SAN FE", "L Aquarium", "CASA BATLLO", "ACHAT CB TMB", "MUSEU PICASSO", "METRO BARCELON",
+        "LA RAMBLA", "FGC MAE", "BORN", "FOCACCERIA", "ENRIQUE TOMAS", "Tucco Real Foo",
+        "AL TAPAS", "Maison FELLMAN", "THE SHOP", "SHERPA", "ACHAT CB DIA"
+        ]
+    },
+    "hairdresser" :{
+        "main_category" : "personal_expenses",
+        "patterns" : [
+        "ELYESS COIFFUR"
+    ]
+    }
+}
