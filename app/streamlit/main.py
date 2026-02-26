@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import json
 from pathlib import Path
+from scripts.io_utils import load_config
 
 st.set_page_config(
     page_title="Bank Statement Analysis",
@@ -13,6 +14,14 @@ st.title("🧪 Streamlit test – Display DataFrame")
 BASE_DIR = Path(__file__).resolve().parents[1]
 DATA_FILE = BASE_DIR / "data" / "processed" / "final_data.csv"
 CAT_FILE = BASE_DIR / "data" / "reference" / "categories.json"
+# # Load config automatically
+# config = load_config()
+BASE_DIR = Path(__file__).resolve().parents[1]
+# DATA_FILE = Path(config['output_final'])
+# CAT_FILE = Path(config['rules_file'])
+
+# Load data
+df = pd.read_csv(DATA_FILE)
 
 @st.cache_data
 def load_data(path):

@@ -2,6 +2,8 @@
 __pycache__/
 *.pyc
 
+__init__.py
+
 # environment file
 environment.yml
 
@@ -9,6 +11,6 @@ environment.yml
 data/raw/personal/
 data/processed/personal/
 data/references/categories.json
-config/config_personal.yaml
+config/config_local.yml
 _old/
 notebook/EDA.ipynb
