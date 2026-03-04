@@ -4,6 +4,12 @@ __pycache__/
 
 __init__.py
 
+# pytest cache
+.pytest_cache/
+
+# vscode settings
+.vscode/
+
 # environment file
 environment.yml
 
