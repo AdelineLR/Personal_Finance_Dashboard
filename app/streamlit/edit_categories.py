@@ -69,7 +69,7 @@ class EditCategoriesPage:
             Accepted formats:
             - '>100'
             - '<50'
-            - '10-200'
+            - '10:200'
             - '150'
 
             Parameters
@@ -89,14 +89,17 @@ class EditCategoriesPage:
                 elif filter_str.startswith('<'):
                     threshold = float(filter_str[1:])
                     return df[df['Amount'] < threshold]
-                # elif '-' in filter_str:
-                #     low, high = map(float, filter_str.split('-'))
-                #     return df[(df['Amount'] >= low) & (df['Amount'] <= high)]
+                elif ':' in filter_str:
+                    low, high = map(float, filter_str.split(':'))
+                    if low > high:
+                        st.warning("Invalid range: low value is greater than high value.")
+                        return df
+                    return df[(df['Amount'] >= low) & (df['Amount'] <= high)]
                 else:
                     value = float(filter_str)
                     return df[df['Amount'] == value]
             except ValueError:
-                st.warning("Invalid amount filter format. Please use '>100', '<50', '10-200', or '150'.")
+                st.warning("Invalid amount filter format. Please use '>100', '<50', '10:200', or '150'.")
                 return df
 
     #---------------------------------------------------------------------------------------------------------------
@@ -127,7 +130,7 @@ class EditCategoriesPage:
         search_year : int or None
         search_text : str
         amount : str
-             Examples: '50', '-50', '>100', '<100', '10-200'
+             Examples: '50', '-50', '>100', '<100', '10:200'
         account : list
         category : list
         subcategory : list
@@ -352,7 +355,6 @@ class EditCategoriesPage:
         df.loc[mask, 'New Category'] = ''
 
 
-
     #---------------------------------------------------------------------------------------------------------------
     # Main method to run the page : display filters, editable dataframe and buttons to apply/save modifications
     #---------------------------------------------------------------------------------------------------------------
@@ -370,7 +372,6 @@ class EditCategoriesPage:
             col1, col2 = st.columns([4, 1])
             with col1:
                 st.write("Use the filters below to narrow down the transactions you want to edit. " \
-                "Don't forget to click on 'Apply modifications' before changing filters ! " \
                 "Click on 'Save modifications' to save the changes into master database.")
             with col2 :
                 # Checkbox to filter only modified rows
@@ -409,8 +410,9 @@ class EditCategoriesPage:
             with col5:
                 amount = st.text_input(
                     "Search by amount",
-                    placeholder="50, -50, >100, <100, ...",
-                    help="Filter transactions by searching for specific amount in the 'Amount' column. Leave empty to show all."
+                    placeholder="-50, >100, -50:200...",
+                    help="Filter transactions by searching for specific amount in the 'Amount' column. Leave empty to show all."\
+                    "Accepted formats: '>100', '<50', '10:200', '150'. Use ':' to specify a range."
                 )
                 
             with col6:
@@ -458,10 +460,11 @@ class EditCategoriesPage:
                 filter_modified
             )
             
+            # Display filtered dataframe in data editor
             self._render_editor(df_filtered)
 
            # Buttons to apply modifications to the current dataframe and save modifications to the master database
-            cols = st.columns([4,2])                
+            cols = st.columns([1,1,1])                
             with cols[1]:
                 if st.button('Save modifications', 
                             help="This will save all the changes you made into the master database. "):
