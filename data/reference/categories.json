@@ -177,5 +177,9 @@
         "patterns" : [
         "ELYESS COIFFUR"
     ]
+    },
+    "hobbies" :{
+        "main_category" : "personal_expenses",
+        "patterns" : []
     }
 }

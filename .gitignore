@@ -19,4 +19,6 @@ data/processed/personal/
 data/references/categories.json
 config/config_local.yml
 _old/
-notebook/EDA.ipynb
+
+# notebooks
+notebook/

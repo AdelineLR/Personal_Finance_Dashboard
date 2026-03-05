@@ -51,6 +51,9 @@ class EditCategoriesPage:
             )
             st.session_state.current_df['Date'] = st.session_state.current_df['Date'].dt.strftime('%Y-%m-%d')
 
+            # Create stable row identifier
+            st.session_state.current_df["row_id"] = st.session_state.current_df.index
+
             # Add columns to store modifications
             for col in ['New Subcategory', 'New Category']:
                 if col not in st.session_state.current_df.columns:
@@ -181,7 +184,7 @@ class EditCategoriesPage:
     #---------------------------------------------------------------------------------------------------------------
     # Internal method to list subcategories from rules file
     #---------------------------------------------------------------------------------------------------------------
-    def _list_categories(self,rules_file):
+    def _list_subcategories(self,rules_file):
         """
         List all unique categories from the rules file.
 
@@ -200,6 +203,44 @@ class EditCategoriesPage:
             subcat_list.add(cat)
             subcat_list.add('other')
         return sorted(subcat_list)
+    
+    #---------------------------------------------------------------------------------------------------------------
+    # Internal method to render the data editor with the filtered dataframe
+    #---------------------------------------------------------------------------------------------------------------
+    def _render_editor(self, df_filtered):
+        """
+        Render the data editor with the filtered dataframe.
+
+        Parameters
+        ----------
+        df_filtered : pd.DataFrame
+            The dataframe after applying filters, to be displayed in the data editor.
+        
+        Returns
+        -------
+        pd.DataFrame
+            The edited dataframe returned by the data editor, containing user modifications.
+        """
+        subcat_list = self._list_subcategories(st.session_state.rules)
+
+        edited_df = st.data_editor(
+            df_filtered,
+            column_config={
+                'New Subcategory': st.column_config.SelectboxColumn(
+                    options=subcat_list
+                ),
+                "row_id": None 
+            },
+            disabled = [
+                col for col in df_filtered.columns
+                if col not in self.columns_to_edit
+            ],
+            hide_index=True,
+            key="category_editor",
+            on_change=self._apply_editor_changes,
+            args=(df_filtered,)
+        )    
+        return edited_df
 
     #---------------------------------------------------------------------------------------------------------------
     #   Internal method to map subcategory to main category using rules file
@@ -225,41 +266,37 @@ class EditCategoriesPage:
             return ''   
 
     #---------------------------------------------------------------------------------------------------------------
-    # Internal method to apply modifications from the edited dataframe to the master dataframe in session state
+    # Internal method to apply changes from the data editor to the master dataframe in session state
     #---------------------------------------------------------------------------------------------------------------
-    def _apply_modifications(self, edited_df):
-        """
-        Apply modifications from the edited dataframe to the master dataframe in session state.
+    def _apply_editor_changes(self, df_filtered):
+        editor_state = st.session_state.get('category_editor', {})
 
-        Parameters
-        ----------
-        edited_df : pd.DataFrame
-            The dataframe returned by the data editor, containing user modifications.
-        
-        Returns
-        -------
-        None
-        
-        This method updates the master dataframe in session state with the modifications made by the user in the data editor.
-        It checks for rows where the 'New Subcategory' column is not empty, maps the
-        new subcategory to the main category, and updates the master dataframe accordingly.
-        """
-        # Filter only modified rows
-        mask = edited_df['New Subcategory'] != ''
-        df_modified = edited_df.loc[mask].copy()
-
-        # If there are no modifications, show info message and return
-        if df_modified.empty:
-            st.info("No modifications to apply.")
+        if "edited_rows" not in editor_state:
             return
-            
-        # If there are modifications, map new subcategories to main categories and update the master dataframe
-        if not df_modified.empty:
-            df_modified['New Category'] = df_modified['New Subcategory'].map(self._map_subcat_to_main)
-            st.session_state.current_df.update(df_modified)
-            st.success("✅ Modifications applied !")
+        
+        for display_idx, changes in editor_state['edited_rows'].items():
+            # Find the actual index in the master dataframe
+            idx = df_filtered.iloc[display_idx]['row_id']
 
-    #
+            for col, new_value in changes.items():
+                # Update the master dataframe with the new value
+                st.session_state.current_df.loc[
+                    st.session_state.current_df['row_id'] == idx,
+                     col
+                ] = new_value
+
+                # Map the new subcategory to the main category and update it in the master dataframe
+                if col == 'New Subcategory':
+                    new_main_cat = self._map_subcat_to_main(new_value)
+                    st.session_state.current_df.loc[
+                        st.session_state.current_df['row_id'] == idx,
+                        'New Category'
+                    ] = new_main_cat
+                
+        
+    #---------------------------------------------------------------------------------------------------------------
+    # Internal method to save the modified dataframe to a CSV file
+    #---------------------------------------------------------------------------------------------------------------
     def _save_to_csv(self, test=False):
         """
         Save the modified dataframe to a CSV file.
@@ -289,32 +326,32 @@ class EditCategoriesPage:
         -------
         None
         """
+        df = st.session_state.current_df
         # Filter only modified rows
         mask = st.session_state.current_df['New Subcategory'] != ''
-        df_modified = st.session_state.current_df.loc[mask].copy()
+        # df_modified = st.session_state.current_df.loc[mask].copy()
 
-        if df_modified.empty:
+        # If no modifications, show info message and return
+        if not mask.any():
             st.info("No modifications to save.")
             return
 
         # If there are modifications, update the master dataframe 
-        if not df_modified.empty:
-            df_modified['Category'] = df_modified['New Category']
-            df_modified['Subcategory'] = df_modified['New Subcategory']
+        df.loc[mask, 'Category'] = df.loc[mask, 'New Category']
+        df.loc[mask, 'Subcategory'] = df.loc[mask, 'New Subcategory']
+        df.loc[mask, 'is_manual']= True
 
-            # Update current dataframe with modifications
-            st.session_state.current_df.update(df_modified)
+        # Update master dataframe with modifications
+        st.session_state.data.update(df.loc[mask])
 
-            # Reset temp columns
-            st.session_state.current_df.loc[mask, 'New Subcategory'] = ''
-            st.session_state.current_df.loc[mask, 'New Category'] = ''
+        # Save to test file to check before overwriting master file
+        self._save_to_csv(test=True)
 
-            # Update master dataframe with modifications
-            st.session_state.data.update(df_modified)
+        # Reset temp columns
+        df.loc[mask, 'New Subcategory'] = ''
+        df.loc[mask, 'New Category'] = ''
 
-            st.success("✅ Modifications saved!")
 
-            self._save_to_csv(test=True)  # Save to test file to check before overwriting master file
 
     #---------------------------------------------------------------------------------------------------------------
     # Main method to run the page : display filters, editable dataframe and buttons to apply/save modifications
@@ -421,39 +458,12 @@ class EditCategoriesPage:
                 filter_modified
             )
             
-            # Create lists of all available subcategories
-            subcat_list = self._list_categories(st.session_state.rules)
-                             
-            # Display editable dataframe : change only in "Subcategory" column, other columns are disabled
-            edited_df = st.data_editor(
-                df_filtered,
-                column_config={
-                    'New Subcategory': st.column_config.SelectboxColumn(
-                        options=subcat_list
-                    )
-                },
-                disabled = [
-                    col for col in df_filtered.columns
-                    if col not in self.columns_to_edit
-                ],
-                hide_index=True,
-                key="category_editor"
-            )    
+            self._render_editor(df_filtered)
 
            # Buttons to apply modifications to the current dataframe and save modifications to the master database
-            cols = st.columns([6,1,1])
+            cols = st.columns([4,2])                
             with cols[1]:
-                if st.button('Apply modifications', 
-                             help="This will apply the changes you made in the table to the current dataframe. " \
-                                  "You can then save all modifications by clicking on 'Save modifications'. "\
-                                  "Don't forget to click on 'Apply modifications' before changing filters, "\
-                                  "otherwise your unsaved changes will be lost!"):
-                    self._apply_modifications(edited_df)
-                    
-            with cols[2]:
                 if st.button('Save modifications', 
-                            help="This will save all the changes you made into the master database. "\
-                                 "Make sure to click on 'Apply modifications' before to apply your changes "\
-                                 "to the current dataframe, otherwise no change will be saved! "):
+                            help="This will save all the changes you made into the master database. "):
                     self._save_modifications()
                 
