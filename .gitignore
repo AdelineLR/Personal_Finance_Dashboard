@@ -16,12 +16,9 @@ environment.yml
 # personal data and config
 data/raw/personal/
 data/processed/personal/
-data/references/categories.json
+data/reference/personal/
 config/config_local.yml
 _old/
 
 # notebooks
 notebook/
-
-# Power BI reports
-*.pbix
