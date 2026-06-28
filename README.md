@@ -1,5 +1,6 @@
 # Bank Expense Analyzer
 
+> ⚠️ WORK IN PROGRESS: project under active development
 > A comprehensive personal finance management system that automates expense categorization, consolidates multiple bank accounts, and provides actionable spending insights through interactive visualizations.
 
 ---
@@ -22,7 +23,7 @@
 ## 🎯 Overview
 
 Bank Expense Analyzer is a Python-based financial management system designed to help users gain control over their spending habits. By integrating data from multiple bank accounts, automatically categorizing transactions, and providing visual analytics, the system enables informed financial decision-making.
-![image](assets/global_overview_report.jpg)
+![image](assets/global_overview_report.png)
 
 **Perfect for:**
 - Tracking expenses across multiple bank accounts
