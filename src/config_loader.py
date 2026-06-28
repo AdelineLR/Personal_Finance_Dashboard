@@ -12,4 +12,5 @@ def config_path() -> str:
 def load_config() -> dict:
     """ Load project configuration. """
     path = config_path()
+    print(path)
     return load_yaml(path)

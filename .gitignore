@@ -22,3 +22,6 @@ _old/
 
 # notebooks
 notebook/
+
+# Power BI reports
+*.pbix

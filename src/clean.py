@@ -29,7 +29,10 @@ def convert_amount_column(df: pd.DataFrame, column: str) -> pd.DataFrame:
     """
     Replace comma with dot in a string amount column and convert to float.
     """
-    df[column] = df[column].str.replace(',', '.', regex=False).astype(float)
+    if df[column].dtype == 'object':
+        df[column] = df[column].str.replace(',', '.', regex=False).astype(float)
+    else:
+        df[column] = df[column].astype(float)
     return df
 
 def add_Debit_Credit_column(df: pd.DataFrame, amount_column: str, new_column='Debit/Credit') -> pd.DataFrame:
@@ -49,6 +52,11 @@ def add_currency_column(df: pd.DataFrame, currency: str) -> pd.DataFrame:
     df['Currency'] = currency
     return df
 
+def clean_multiple_spaces(df: pd.DataFrame, column: str) -> pd.DataFrame:
+    """ Replace multiple consecutive spaces with a single space in a column. """
+    df[column] = df[column].str.replace(r'\s+', ' ', regex=True).str.strip()
+    return df
+
 def clean_bank_data(df_raw : pd.DataFrame, config : dict) -> pd.DataFrame:
     """
     Perform full cleaning pipeline on raw bank statement data.
@@ -56,6 +64,7 @@ def clean_bank_data(df_raw : pd.DataFrame, config : dict) -> pd.DataFrame:
     Returns a cleaned DataFrame with:
     - Drop empty columns
     - Rename columns
+    - Clean multiple spaces in Details column
     - Convert date and amount fields
     - Add debit/credit classification
     - Extract month and year
@@ -64,6 +73,7 @@ def clean_bank_data(df_raw : pd.DataFrame, config : dict) -> pd.DataFrame:
     df = drop_empty_columns(df)
     df = drop_duplicates(df)
     df = rename_columns(df, config['rename_columns'])
+    df = clean_multiple_spaces(df, config['details_column'])
     df = add_currency_column(df, config['currency'])
     df = convert_date_column(df, config['date_column'])
     df = convert_amount_column(df, config['amount_column'])

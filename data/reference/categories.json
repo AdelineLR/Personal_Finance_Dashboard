@@ -1,14 +1,24 @@
 {
-    "income" : {
-        "main_category" : "financial_operations",
+    "unemployment_benefits" : {
+        "main_category" : "income",
         "patterns" :[
-        "SANOFI", 
-        "FRANCE TRAVAIL",
+        "FRANCE TRAVAIL"
+        ]
+    },
+    "rental_income" : {
+        "main_category" : "income",
+        "patterns" :[
         "OPHELIE BRENET"
         ]
     },
+    "salary" : {
+        "main_category" : "income",
+        "patterns" :[
+        "SANOFI"
+        ]
+    },
     "transfert" : {
-        "main_category" : "financial_operations",
+        "main_category" : "financial",
         "patterns" : [
         "VIREMENT DE MME LE RAY ADELINE", "VIREMENT INSTANTANE DE MR DELUARD JEAN-PAUL",
         "VIREMENT DE MR DELUARD JEAN-PAUL", "VIREMENT DE MLE LE RAY ADELINE",
@@ -16,31 +26,43 @@
         ]
     },
     "sport" : {
-        "main_category" : "personal_expenses",
+        "main_category" : "leisure",
         "patterns" : [
         "CHEVREUL SPORT"
         ]
     },
-    "phone_internet_tv" : {
-        "main_category" : "housing_utilities",
+    "internet" : {
+        "main_category" : "housing",
         "patterns" : [
-        "BOUYGUES TELECOM", "ORANGE"
+        "ORANGE"
         ]
     },
-    "energy_water" : {
-        "main_category" : "housing_utilities",
+    "cellphone" : {
+        "main_category" : "housing",
         "patterns" : [
-        "EDF", "EAU DU GRAND LYON"
+        "BOUYGUES TELECOM"
+        ]
+    },
+    "electricity" : {
+        "main_category" : "housing",
+        "patterns" : [
+        "EDF"
+        ]
+    },
+    "water" : {
+        "main_category" : "housing",
+        "patterns" : [
+        "EAU DU GRAND LYON"
         ]
     },
     "cleaning" : {
-        "main_category" : "housing_utilities",
+        "main_category" : "housing",
         "patterns" : [
         "VIVASERVICES", "URSSAF"
         ]
     },
     "savings" : {
-        "main_category" : "financial_operations",
+        "main_category" : "financial",
         "patterns" : [
         "PERP", "CACHEMIRE", "VIVACCIO"
         ]
@@ -55,13 +77,13 @@
         "DOCTEUR GUETAT"
         ]
     },
-    "social_security": {
+    "social_security_refund": {
         "main_category" : "health",
         "patterns" : [ 
         "CPAM"
         ]
     },
-    "health_insurance": {
+    "insurance_refund": {
         "main_category" : "health",
         "patterns" : [ 
         "APGIS"
@@ -87,39 +109,64 @@
         ]
     },
     "clothes": {
-        "main_category" : "personal_expenses",
+        "main_category" : "shopping",
         "patterns" : [
         "LOCA LOCA", "SECAND", "ETAM", "DECATHLON", "CODOGNES CHAUS", "PEPITA", "CHAUSSEA",
         "CHAUSS PIED"
         ]
     },
     "home_taxes": {
-        "main_category" : "housing_utilities",
+        "main_category" : "housing",
         "patterns" : [
         "PRADO", "LE PATIO CHEVREUL"
         ]
     },
     "public_transport_car": {
-        "main_category" : "public_transport_car",
+        "main_category" : "transport",
         "patterns" : [
         "RATP", "TCL", "TOTAL", "AUTOROUTE", "ASF", "AREA", "SPL RU", 
         "TRENITALIA", "APRR", "SNCF", "COFIROUTE", "ALIAE", "AVIA", "ESTACIO DE SER"
         ]
     },
-    "book_store": {
-        "main_category" : "personal_expenses",
+    "train": {
+        "main_category" : "transport",
+        "patterns" : [
+        "TRENITALIA","SNCF"
+        ]
+    },
+    "public_transport": {
+        "main_category" : "transport",
+        "patterns" : [
+        "RATP", "TCL"
+        ]
+    },
+    "toll": {
+        "main_category" : "transport",
+        "patterns" : [
+        "AUTOROUTE", "ASF", "AREA", "SPL RU", 
+        "APRR", "COFIROUTE", "ALIAE"
+        ]
+    },
+    "fuel": {
+        "main_category" : "transport",
+        "patterns" : [
+        "TOTAL", "AVIA", "ESTACIO DE SER"
+        ]
+    },
+    "books": {
+        "main_category" : "leisure",
         "patterns" : [
         "RIVE GAUCHE", "TERRE DES LIVR", "VOIE O CHAPITR", "LES KORRIGANS"
         ]
     },
-    "bank_taxes": {
-        "main_category" : "financial_operations",
+    "bank_fees": {
+        "main_category" : "financial",
         "patterns" : [
         "COTISATION"
         ]
     },
     "taxes" : {
-        "main_category" : "financial_operations",
+        "main_category" : "financial",
         "patterns" : [
         "FINANCES PUBL"
         ]
@@ -136,33 +183,33 @@
         "BURO SARL"
         ]
     },
-    "social_system" : {
-        "main_category" : "education",
+    "CAF" : {
+        "main_category" : "income",
         "patterns" : [
         "CAF"
         ]
     },
     "insurance" : {
-        "main_category" : "housing_utilities",
+        "main_category" : "housing",
         "patterns" : [
         "MAIF"
         ]
     },
     "donations" : {
-        "main_category" : "financial_operations",
+        "main_category" : "financial",
         "patterns" : [
         "Croix-Rouge"
         ]
     },
     "works" :{
-        "main_category" : "housing_utilities",
+        "main_category" : "housing",
         "patterns" : [
         "BRICORAMA", "LEROY MERLIN", "PERSPECTIVE VERANDA", "MORAND","TENBO AGENCEMENT", 
         "CAL ART PEINTURE", "VIREMENT DEBIT", "ETS ROCHE PERE ET FILS", "ROCHE ET FILS"
         ]
     },
     "holidays" : {
-        "main_category" : "holidays_leisure",
+        "main_category" : "holidays",
         "patterns" : [
         "Airbnb", "BOOKING", "EMANUELLA", "PORTAVENTURA", "PORT AVENTURA", "PARK GELL", "ski", "ROUE LIBRE",
         "CYCLOMAR", "VELOBELLEILE.F", "EQUILIBRES ARC", "TRINITAIN", "POURLETTE", "LA BELLE ILOIS",
@@ -173,13 +220,15 @@
         ]
     },
     "hairdresser" :{
-        "main_category" : "personal_expenses",
+        "main_category" : "personal_care",
         "patterns" : [
         "ELYESS COIFFUR"
-    ]
+        ]
     },
     "hobbies" :{
-        "main_category" : "personal_expenses",
-        "patterns" : []
+        "main_category" : "leisure",
+        "patterns" : [
+        "MY POT"
+        ]
     }
 }

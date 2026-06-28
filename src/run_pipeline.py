@@ -12,7 +12,9 @@ def load_existing_dataset(config: dict) -> pd.DataFrame:
     if os.path.exists(config['output_final']):
         df = pd.read_csv(config['output_final'])
         df ['Date'] = pd.to_datetime(df ['Date'], errors='coerce')
-    return df
+        return df
+    else:
+        return pd.DataFrame()
 
 # Load raw files
 def load_raw_files(config: dict) -> pd.DataFrame:

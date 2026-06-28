@@ -9,6 +9,7 @@ rename_columns:
 rules_file: "data/reference/categories_example.json"
 
 category_columns: "Details"
+details_column: "Details"
 amount_column : "Amount"
 date_column: "Date"
 
