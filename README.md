@@ -15,20 +15,21 @@
 - [Usage](#usage)
 - [Configuration](#configuration)
 - [Data Pipeline](#data-pipeline)
-- [Troubleshooting](#troubleshooting)
-- [Future Enhancements](#future-enhancements)
+- [License](#license)
 
 ---
 
 ## 🎯 Overview
 
 Bank Expense Analyzer is a Python-based financial management system designed to help users gain control over their spending habits. By integrating data from multiple bank accounts, automatically categorizing transactions, and providing visual analytics, the system enables informed financial decision-making.
+![image](assets/global_overview_report.jpg)
 
 **Perfect for:**
 - Tracking expenses across multiple bank accounts
 - Understanding spending patterns by category
 - Automating transaction categorization with customizable rules
-- Building a unified personal finance dashboard
+- Building a unified personal finance experience with an interactive Power BI report
+- Supporting La Banque Postale CSV exports through a dedicated processing pipeline
 
 ---
 
@@ -61,7 +62,7 @@ The project required developing an automated solution to:
    - Tracks manual vs. automatic categorizations
    - Allows rule versioning and updates
 
-✅ **Interactive Dashboard**: Created a Streamlit-powered frontend to:
+✅ **Interactive Power BI Report**: Created an interactive Power BI report to:
    - Visualize spending patterns and trends
    - Edit and manage transaction categories
    - Export processed data for further analysis
@@ -102,7 +103,7 @@ The project required developing an automated solution to:
 | **Duplicate Prevention** | Automatic detection and prevention of duplicate entries |
 | **Manual Corrections** | Interactive UI to adjust categories and manage rules |
 | **Data Persistence** | Incremental updates preserving historical data |
-| **Visual Analytics** | Dashboard with spending patterns and trends |
+| **Interactive Power BI report** | Visualize spending patterns and trends |
 | **Configuration-Driven** | YAML-based settings for easy customization |
 | **Data Validation** | Comprehensive cleaning and normalization pipeline |
 
@@ -117,6 +118,7 @@ The project required developing an automated solution to:
 
 ### Frontend
 - **Streamlit 1.53.0**: Interactive web dashboard
+- **Power BI Desktop (June 2026)**: Interactive reporting and analytics
 
 ### Configuration & Data
 - **PyYAML**: YAML configuration file parsing
@@ -136,44 +138,42 @@ The project required developing an automated solution to:
 ## 📁 Project Structure
 
 ```
-├── src/                           # Core application modules
+├── src/                                  # Core application modules
 │   ├── __init__.py
-│   ├── run_pipeline.py           # Main ETL orchestration
-│   ├── categorize.py             # Transaction categorization engine
-│   ├── clean.py                  # Data cleaning functions
-│   ├── config_loader.py          # Configuration management
-│   └── io_utils.py               # File I/O utilities
+│   ├── run_pipeline.py                # Main ETL orchestration
+│   ├── categorize.py                  # Transaction categorization engine
+│   ├── clean.py                       # Data cleaning functions
+│   ├── config_loader.py               # Configuration management
+│   └── io_utils.py                    # File I/O utilities
 │
-├── app/                           # User-facing applications
-│   ├── streamlit/                # Streamlit dashboard
-│   │   ├── main.py               # Dashboard entry point
-│   │   └── edit_categories.py    # Category management interface
-│   └── power bi/                 # Power BI integration
+├── app/                                  # User-facing applications
+│   ├── streamlit/                     # Streamlit dashboard
+│   │   ├── main.py                    # Dashboard entry point
+│   │   └── edit_categories.py         # Category management interface
+│   └── power bi/                      # Power BI integration
+│       └── bank_expense_report.pbix   # Power BI report
 │
-├── config/                        # Configuration files
-│   ├── config_example.yml        # Example configuration template
-│   └── config_local.yml          # Local configuration (user-specific)
+├── config/                               # Configuration files
+│   ├── config_example.yml             # Example configuration template
+│   └── config_local.yml               # Local configuration (user-specific)
 │
-├── data/                          # Data directory
-│   ├── raw/                      # Raw bank export files
+├── data/                                 # Data directory
+│   ├── raw/                           # Raw bank export files
 │   │   ├── example/
 │   │   └── personal/
-│   ├── processed/                # Processed and cleaned data
+│   ├── processed/                     # Processed and cleaned data
 │   │   ├── example/
 │   │   └── personal/
-│   └── reference/                # Reference data (categories)
-│       └── categories.json
+│   └── reference/                     # Reference data (categories)
+│       ├── example/
+│       └── personal/
 │
-├── notebook/                      # Jupyter notebooks
-│   ├── EDA.ipynb                 # Exploratory data analysis
-│   └── test.ipynb                # Testing and development
-│
-├── tests/                         # Unit tests
+├── tests/                             # Unit tests
 │   ├── __init__.py
 │   └── test_pipeline.py
 │
-├── environment.yml               # Conda environment specification
-└── README.md                     # This file
+├── environment.yml                    # Conda environment specification
+└── README.md                          # This file
 
 ```
 
@@ -217,7 +217,7 @@ The project required developing an automated solution to:
 python -m src.run_pipeline
 ```
 
-**Launch the Streamlit dashboard:**
+**Launch the Streamlit app for manual adjustment:**
 ```bash
 streamlit run app/streamlit/main.py
 ```
@@ -297,6 +297,7 @@ The system follows a robust ETL (Extract, Transform, Load) process:
 │     └─ Rename columns based on config mapping             │
 │     └─ Convert date formats (day-first)                     │
 │     └─ Normalize amounts (comma → dot)                     │
+│     └─ Parse La Banque Postale CSV format and bank-specific mappings │
 │     └─ Drop empty columns & duplicates                     │
 │     └─ Parse configuration and rules                       │
 │                                                               │
@@ -347,6 +348,12 @@ export BANK_ANALYZER_DEBUG="true"
 
 ---
 
+## 📜 License
+
+This project is released under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+
+---
+
 ## 🧪 Testing
 
 Run the test suite:
@@ -363,35 +370,6 @@ pytest tests/test_pipeline.py -v
 
 ---
 
-## 🔍 Troubleshooting
-
-### Issue: "File not found" error
-**Solution**: Verify file paths in `config_local.yml` and ensure files exist in specified directories.
-
-### Issue: Columns not recognized
-**Solution**: Check column names match exactly in `columns_mapping` within config file. Use EDA.ipynb to inspect actual column names.
-
-### Issue: Transactions not categorized
-**Solution**: Review categorization rules in `config/rules.json`. Rules use regex patterns; ensure patterns match transaction descriptions.
-
-### Issue: Duplicate entries appearing
-**Solution**: Verify the `merge_col` is correctly identifying unique transactions. Check for inconsistencies in the data.
-
-### Issue: Streamlit dashboard not loading
-**Solution**: 
-```bash
-# Ensure environment is activated
-conda activate bank_expense_analyzer
-
-# Clear Streamlit cache
-streamlit cache clear
-
-# Restart the app
-streamlit run app/streamlit/main.py
-```
-
----
-
 ## 🚦 Dependencies
 
 ### Python Packages
@@ -402,60 +380,6 @@ streamlit run app/streamlit/main.py
 - `streamlit`: Web interface
 - `matplotlib`: Visualization
 - `seaborn`: Statistical plotting
-
-### System Requirements
-- Python 3.13+
-- 2GB RAM (minimum)
-- 1GB disk space for sample data
-
----
-
-## 📈 Future Enhancements
-
-### Phase 2: Advanced Analytics
-- [ ] Machine learning-based categorization refinement
-- [ ] Anomaly detection for unusual transactions
-- [ ] Spending forecasting and budget recommendations
-- [ ] Multi-currency support
-
-### Phase 3: User Experience
-- [ ] Web-based UI (replacing Streamlit)
-- [ ] User authentication and data privacy
-- [ ] Multi-user support with shared accounts
-- [ ] Mobile application
-
-### Phase 4: Integration
-- [ ] Real-time bank API integration (Open Banking standards)
-- [ ] Automated transaction syncing
-- [ ] Export to accounting software (QuickBooks, FreshBooks)
-- [ ] Integration with financial planning tools
-
-### Phase 5: Data Governance
-- [ ] Encrypted data storage
-- [ ] Audit logging
-- [ ] Data retention policies
-- [ ] GDPR compliance features
-
----
-
-## 📝 Development Notes
-
-### Code Style
-- Follow PEP 8 guidelines
-- Use type hints for function parameters
-- Document complex functions with docstrings
-- Keep functions focused and modular
-
-### Adding New Features
-1. Create a new module in `src/`
-2. Write unit tests in `tests/`
-3. Update configuration schema if needed
-4. Document in README
-
-### Debugging
-- Use the notebooks in `notebook/` for exploratory work
-- Enable logging: `logging.basicConfig(level=logging.DEBUG)`
-- Check data at each pipeline stage
 
 ---
 
@@ -468,29 +392,9 @@ This project is provided as-is for personal financial management. All data remai
 ## 👤 Author
 
 **Adeline Le Ray**  
-*Data Analyst | Finance Automation*
+*Data Analyst*
 
 ---
 
-## 🤝 Contributing
-
-Contributions are welcome! Please:
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## ❓ Support
-
-For issues, questions, or feedback:
-- Check the [Troubleshooting](#troubleshooting) section
-- Review existing issues
-- Create a new issue with detailed information
-
----
-
-**Last Updated**: April 2026  
+**Last Updated**: June 2026  
 **Version**: 1.0.0
