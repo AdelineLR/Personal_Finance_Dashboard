@@ -1,6 +1,7 @@
 # Bank Expense Analyzer
 
 > ⚠️ WORK IN PROGRESS: project under active development
+
 > A comprehensive personal finance management system that automates expense categorization, consolidates multiple bank accounts, and provides actionable spending insights through interactive visualizations.
 
 ---
